@@ -9,7 +9,10 @@ import (
 
 const rungoCmdUsage = `Argument: [Action] [Options...]
 
-Action: version
+Action:
+
+  * version
+  * list-pkg [PKG_IMPORT_PATH...]
 
 `
 
@@ -25,6 +28,8 @@ func main() {
 	switch cmdAction {
 	case "version":
 		runVersion(&cmdGo)
+	case "list-pkg":
+		runListPackage(&cmdGo, cmdOptions...)
 	}
 	return
 }

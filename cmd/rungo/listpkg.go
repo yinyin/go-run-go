@@ -7,8 +7,8 @@ import (
 	rungo "github.com/yinyin/go-run-go"
 )
 
-func runListPackage(cmdGo *rungo.CommandGo, pkgImportPath ...string) {
-	pkgInfos, err := cmdGo.ListPackage(pkgImportPath...)
+func runListPackage(cmdGo *rungo.CommandGo, pkgImportPaths ...string) {
+	pkgInfos, err := cmdGo.ListPackage(pkgImportPaths...)
 	if nil != err {
 		log.Printf("failed on invoke list package: %v", err)
 		return

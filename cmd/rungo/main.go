@@ -30,6 +30,8 @@ func main() {
 		runVersion(&cmdGo)
 	case "list-pkg":
 		runListPackage(&cmdGo, cmdOptions...)
+	case "import-depth":
+		runImportDepth(&cmdGo, cmdOptions...)
 	}
 	return
 }

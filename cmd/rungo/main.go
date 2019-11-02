@@ -13,6 +13,7 @@ Action:
 
   * version
   * list-pkg [PKG_IMPORT_PATH...]
+  * list-mod [MOD_IMPORT_PATH...]
 
 `
 
@@ -30,6 +31,8 @@ func main() {
 		runVersion(&cmdGo)
 	case "list-pkg":
 		runListPackage(&cmdGo, cmdOptions...)
+	case "list-mod":
+		runListModule(&cmdGo, cmdOptions...)
 	case "import-depth":
 		runImportDepth(&cmdGo, cmdOptions...)
 	}

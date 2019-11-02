@@ -20,3 +20,24 @@ func (c *CommandGo) ListPackage(pkgImportPath ...string) (result []*Package, err
 	}
 	return
 }
+
+// ListModule get module information with `go list -json -m`.
+func (c *CommandGo) ListModule(pkgImportPath ...string) (result []*Module, err error) {
+	cmdArgs := []string{"list", "-json", "-m"}
+	cmdArgs = append(cmdArgs, pkgImportPath...)
+	jsonResult, err := c.runWithJSONResult(cmdArgs)
+	if nil != err {
+		return
+	}
+	defer jsonResult.Wait()
+	ok := true
+	for ok {
+		var aux Module
+		if ok, err = jsonResult.Decode(&aux); ok {
+			result = append(result, &aux)
+		} else if nil != err {
+			return
+		}
+	}
+	return
+}

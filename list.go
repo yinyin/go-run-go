@@ -4,7 +4,7 @@ package rungo
 func (c *CommandGo) ListPackage(pkgImportPath ...string) (result []*Package, err error) {
 	cmdArgs := []string{"list", "-json"}
 	cmdArgs = append(cmdArgs, pkgImportPath...)
-	jsonResult, err := c.runWithJSONResult(cmdArgs)
+	jsonResult, err := c.runWithJSONResults(cmdArgs)
 	if nil != err {
 		return
 	}
@@ -25,7 +25,7 @@ func (c *CommandGo) ListPackage(pkgImportPath ...string) (result []*Package, err
 func (c *CommandGo) ListModule(pkgImportPath ...string) (result []*Module, err error) {
 	cmdArgs := []string{"list", "-json", "-m"}
 	cmdArgs = append(cmdArgs, pkgImportPath...)
-	jsonResult, err := c.runWithJSONResult(cmdArgs)
+	jsonResult, err := c.runWithJSONResults(cmdArgs)
 	if nil != err {
 		return
 	}

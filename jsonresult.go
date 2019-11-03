@@ -26,7 +26,7 @@ func (r *jsonResultDecoder) Wait() error {
 	return r.cmd.Wait()
 }
 
-func (c *CommandGo) runWithJSONResult(cmdArgs []string) (resDecoder *jsonResultDecoder, err error) {
+func (c *CommandGo) runWithJSONResults(cmdArgs []string) (resDecoder *jsonResultDecoder, err error) {
 	cmd := exec.Command(c.exePath(), cmdArgs...)
 	stdout, err := cmd.StdoutPipe()
 	if nil != err {
@@ -41,5 +41,31 @@ func (c *CommandGo) runWithJSONResult(cmdArgs []string) (resDecoder *jsonResultD
 		stdout: stdout,
 		dec:    dec,
 	}
+	return
+}
+
+func (c *CommandGo) runWithJSONDecode(cmdArgs []string, v interface{}) (err error) {
+	cmd := exec.Command(c.exePath(), cmdArgs...)
+	stdout, err := cmd.StdoutPipe()
+	if nil != err {
+		return
+	}
+	if err = cmd.Start(); nil != err {
+		return
+	}
+	dec := json.NewDecoder(stdout)
+	if err = dec.Decode(v); nil != err {
+		return
+	}
+	devnull := make([]byte, 128)
+	for {
+		if _, err = stdout.Read(devnull); nil != err {
+			if err == io.EOF {
+				err = nil
+			}
+			break
+		}
+	}
+	cmd.Wait()
 	return
 }
